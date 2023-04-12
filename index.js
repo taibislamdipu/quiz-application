@@ -1,9 +1,39 @@
-function nextQuestion() {
-  currentQuestion++;
-  console.log("Current question:", currentQuestion);
-  displayQuestion();
+// function for loading next question
+// function nextQuestion() {
+//   currentQuestion++;
+//   console.log("Current question:", currentQuestion);
+//   displayQuestion();
+// }
+
+var userAnswers = [];
+
+function getSelectedOption() {
+  var optionInputs = document.getElementsByName("option");
+  for (var i = 0; i < optionInputs.length; i++) {
+    if (optionInputs[i].checked) {
+      return i;
+    }
+  }
+  return null;
 }
 
+function nextQuestion() {
+  // Save the user's answer
+  var selectedOption = getSelectedOption();
+  if (selectedOption !== null) {
+    userAnswers[currentQuestion] = selectedOption;
+  }
+
+  // Move to the next question
+  currentQuestion++;
+  if (currentQuestion < quizData.length) {
+    displayQuestion();
+  } else {
+    showResults();
+  }
+}
+
+// quiz data
 var currentQuestion = 0;
 var quizData = [
   {
@@ -33,6 +63,7 @@ var quizData = [
   },
 ];
 
+// display quiz function
 function displayQuestion() {
   var questionText = quizData[currentQuestion].question;
   var options = quizData[currentQuestion].options;
@@ -45,3 +76,31 @@ function displayQuestion() {
 }
 
 displayQuestion();
+
+// show results function
+function showResults() {
+  // Calculate the user's score
+  var score = 0;
+  for (var i = 0; i < quizData.length; i++) {
+    if (userAnswers[i] === quizData[i].answer) {
+      score++;
+    }
+  }
+
+  // Display the user's score
+  var scoreText = "You scored " + score + " out of " + quizData.length + ".";
+  document.getElementById("score").innerHTML = scoreText;
+
+  // Display the correct answers
+  var answersList = document.getElementById("answers");
+  for (var i = 0; i < quizData.length; i++) {
+    var listItem = document.createElement("li");
+    var answerText =
+      quizData[i].question + " - " + quizData[i].options[quizData[i].answer];
+    listItem.innerHTML = answerText;
+    if (userAnswers[i] !== quizData[i].answer) {
+      listItem.style.color = "red";
+    }
+    answersList.appendChild(listItem);
+  }
+}
