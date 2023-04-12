@@ -13,7 +13,19 @@
 </head>
 
 <body>
-    <div class="text-3xl font-bold underline">Hello, world!</div>
+
+
+    <div id="quiz-container">
+        <h2 id="question"></h2>
+        <ul id="options">
+            <li><input type="radio" name="answer" value="0"><span id="option0"></span></li>
+            <li><input type="radio" name="answer" value="1"><span id="option1"></span></li>
+            <li><input type="radio" name="answer" value="2"><span id="option2"></span></li>
+            <li><input type="radio" name="answer" value="3"><span id="option3"></span></li>
+        </ul>
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" id="next-button"
+            onclick="nextQuestion()">Next</button>
+    </div>
 
 
 
